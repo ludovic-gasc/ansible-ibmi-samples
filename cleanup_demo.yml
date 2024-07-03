@@ -1,0 +1,39 @@
+# Copyright (c) IBM Corporation 2019, 2020
+# Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
+---
+- name: Cleaning my IBM i Ansible demo environment
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Run the CL command to delete demo user HANS
+      ibm.power_ibmi.ibmi_cl_command:
+        cmd: dltusrprf usrprf(hans)
+        joblog: false
+      register: del_user_hans_result
+      ignore_errors: true
+      tags: usr
+
+    - name: Run the CL command to delete demo user HIBLE
+      ibm.power_ibmi.ibmi_cl_command:
+        cmd: dltusrprf usrprf(hible)
+        joblog: false
+      register: del_user_hible_result
+      ignore_errors: true
+      tags: usr
+
+    - name: Run the CL command to clear demo library ANSIBLE4I
+      ibm.power_ibmi.ibmi_cl_command:
+        cmd: clrlib lib(ansible4i)
+        joblog: false
+      register: clr_library_ansible4i_result
+      ignore_errors: true
+      tags: lib
+
+    - name: Run the CL command to delete demo library ANSIBLE4I
+      ibm.power_ibmi.ibmi_cl_command:
+        cmd: dltlib lib(ansible4i)
+        joblog: false
+      register: del_library_ansible4i_result
+      ignore_errors: true
+      tags: lib

@@ -1,0 +1,23 @@
+# Copyright (c) IBM Corporation 2019, 2020
+# Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
+---
+- name: Create two IBM i users, Hans and Hible for the demo
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Run the CL command to create demo user HANS
+      ibm.power_ibmi.ibmi_cl_command:
+        cmd: crtusrprf usrprf(hans) password(hans)
+        joblog: false
+      register: create_user_hans_result
+      ignore_errors: true
+      tags: hans
+
+    - name: Run the CL command to create demo user HIBLE
+      ibm.power_ibmi.ibmi_cl_command:
+        cmd: crtusrprf usrprf(hible) password(hible)
+        joblog: false
+      register: create_user_hible_result
+      ignore_errors: true
+      tags: hible
